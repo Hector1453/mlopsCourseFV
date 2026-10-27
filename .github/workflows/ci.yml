@@ -1,0 +1,45 @@
+name: CI — Training Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      # Download the repository files onto the runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # Install the Python version used in development
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # Install all project libraries
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      # Download Diabetes dataset and save to data/raw/
+      - name: Data extraction
+        run: python src/data/data_extraction.py
+      # Check field types and required columns including Pydantic validation
+      - name: Data validation
+        run: python src/data/data_validation.py
+      # Fill nulls, fix types, remove outliers → data/processed/train_v1.csv
+      - name: Data cleaning
+        run: python src/data/data_cleaning.py
+      # Add engineered features → data/processed/train_features_v1.csv
+      - name: Feature engineering
+        run: python src/data/feature_engineering.py
+      # Train LinearRegression, RandomForest and GradientBoosting; log runs to MLflow
+      - name: Model training
+        run: python src/models/train.py
+      # Register the best run in the MLflow Model Registry
+      - name: Model registration
+        run: python src/models/register_model.py
+      # Run quality gate: exit 1 if rmse >= 60
+      - name: Model evaluation
+        run: python src/models/evaluate_model.py

@@ -1,0 +1,24 @@
+mlruns/*
+data/*
+## Ignore all pychache files all projects
+src/__pycache__/
+src/api/__pycache__/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Ignore virtual environment folders
+venv/
+env/
+# Ignore vscode setting folder
+vscode/
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+# Ignore log files
+*.log
+# Ignore temporary files
+*.tmp
+*.temp
+# Ignore system files
+.DS_Store
+Thumbs.db
