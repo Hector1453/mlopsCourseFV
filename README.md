@@ -191,7 +191,7 @@ and in the shell.
 The most common messages are:
 
 | Method | Path | Code | Meaning |
-|---|---|---|---|---|
+|---|---|---|---|
 | `GET` | `/health` | 200 | OK: service alive and model available |
 | `GET` | `/model-info` | 200 | OK: model correctly loaded and metadata returned. |
 | `GET` | `/model-info` | 503 | ERROR: model not loaded. |
